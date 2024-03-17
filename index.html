@@ -3,116 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List 2022 with LocalStorage</title>
+    <title>QuestMaster - Task Adventure</title>
 
-    <!--Font from google -->
+    <!--Font from google-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    <!--Referencing CSS file -->
+
+    <!--Referencing CSS file-->
     <link rel="stylesheet" href="main.css"/>
-
-
 </head>
 <body>
     
-    <!--Top section, welcoming user and allowing input of name -->
+    <!--Header section with game name and logo-->
+    <header class="header">
+        <img src="/images/logoGif.gif" alt="QuestMaster Logo" class="logo"/>
+        <h1>QuestMaster</h1>
+    </header>
+
     <main class="app">
+
+        <!--Top section, welcoming user and allowing input of name-->
         <section class="greeting">
             <h2 class="title">
-                What's up, <input type="text" name="" id="name" placeholder="Name here">
+                Welcome, <input type="text" id="name" placeholder="Enter your name">
             </h2>
         </section>
         
-    <!--Two bits of basic text, and a text input for the user to type a new task -->    
+        <!--Section for creating a new task-->
         <section class="create-todo">
-            <h3>CREATE A TODO</h3>
+            <h3>Create a Quest</h3>
             <form id="new-todo-form">
-                <h4>What's on your todo list?</h4>
-                <!--Text input -->
-                <input type="text"
-                 name="content" 
-                 id="content" 
-                 placeholder="e.g. make a video"/>
+                <h4>What's your next quest?</h4>
+                <!--Text input for new quest-->
+                <input type="text" name="content" id="content" placeholder="e.g. Slay the dragon"/>
 
+                <h4>Quest Difficulty</h4>
+                <div class="options difficulty">
+                    <label>
+                        <input type="radio" name="difficulty" value="easy" checked>
+                        <span class="bubble difficulty"></span>
+                        <div>Easy (10 XP)</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="difficulty" value="medium">
+                        <span class="bubble difficulty"></span>
+                        <div>Medium (20 XP)</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="difficulty" value="hard">
+                        <span class="bubble difficulty"></span>
+                        <div>Hard (30 XP)</div>
+                    </label>
+                </div>
 
-    <!--Two radio buttons, for either business or personal tasks -->            
-            <h4>Pick a category</h4>
-            <div class="options">
-
-                <!--Bubble creates a nicer looking radio button for css -->
-                <label>
-                    <input type="radio" 
-                    name="category" 
-                    id="category1" 
-                    value="business">
-                    <span class="bubble business"></span>
-                    <div>Business</div>
-                </label>
-
-                <label>
-                    <input type="radio" 
-                    name="category" 
-                    id="category2" 
-                    value="Personal">
-                    <span class="bubble personal"></span>
-                    <div>personal</div>
-                </label>
-
-            </div>
-
-                <!--The add todo button is a submit button, to submit their typed in task -->
-                <input type="submit" value="Add todo" />
+                <!--Submit button for adding a new quest-->
+                <input type="submit" value="Add Quest" />
             </form>
         </section>
 
-        
-        <!--Two sections, one for each task, allows the user to edit or delete their task -->
+        <!--Quest list section-->
         <section class="todo-list">
-        <h3>TODO LIST</h3>
-        <div class="list" id="todo-list">
-            <!--<div class="todo-item done">
-                <label>
-                    <input type="checkbox" />
-                    <span class="bubble business"></span>
-                </label>
-                <div class="todo-content">
-                    <input type="text" value="Make a video" readonly/>
-                </div>
-
-                <div class="actions">
-                    <button class ="edit">Edit</button>
-                    <button class ="delete">Delete</button>
-                </div>
+            <h3>Your Quests</h3>
+            <div class="list" id="todo-list">
+                <!--Quest items will be dynamically added here-->
             </div>
-        </div>
         </section>
 
-        <section class="todo-list">
-            <h3>TODO LIST</h3>
-            <div class="list" id="todo-list">
-                <div class="todo-item">
-                    <label>
-                        <input type="checkbox" />
-                        <span class="bubble business"></span>
-                    </label>
-                    <div class="todo-content">
-                        <input type="text" value="Get milk" readonly/>
-                    </div>
-    
-                    <div class="actions">
-                        <button class ="edit">Edit</button>
-                        <button class ="delete">Delete</button>
-                    </div>
-                </div>-->
-            </div>
-            </section>
-       
-
+        <!--User stats section-->
+        <section class="user-stats">
+            <h4>Level: <span id="user-level">1</span></h4>
+            <h4>XP: <span id="user-xp">0</span>/<span id="next-level-xp">100</span></h4>
+        </section>
 
     </main>
-    <!--Calls the JavaScript file -->
+
+    <!--JavaScript file-->
     <script src="main.js"></script>
 </body>
 </html>

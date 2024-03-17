@@ -1,119 +1,152 @@
-//If there are any todos save locally, grab them
+// User stats initialization
+let todos, user = JSON.parse(localStorage.getItem('user')) || {
+    level: 1,
+    xp: 0,
+    nextLevelXp: 100
+};
+
+// Function to update the user's level and XP display
+function updateDisplay() {
+    document.getElementById('user-level').textContent = user.level;
+    document.getElementById('user-xp').textContent = user.xp;
+    document.getElementById('next-level-xp').textContent = user.nextLevelXp;
+}
+
+// Function to add XP and handle level up
+function addXP(difficulty) {
+    let xpToAdd;
+    switch (difficulty) {
+        case 'easy':
+            xpToAdd = 10;
+            break;
+        case 'medium':
+            xpToAdd = 20;
+            break;
+        case 'hard':
+            xpToAdd = 30;
+            break;
+    }
+    user.xp += xpToAdd;
+    if (user.xp >= user.nextLevelXp) {
+        user.level++;
+        user.xp -= user.nextLevelXp;
+        user.nextLevelXp += 100; // Increase the XP required for the next level
+        alert(`Congratulations! You've reached level ${user.level}!`);
+    }
+    localStorage.setItem('user', JSON.stringify(user));
+    updateDisplay();
+}
+
+// Function to display todos
+function DisplayTodos() {
+    const todoList = document.querySelector('#todo-list');
+    todoList.innerHTML = '';
+
+    todos.forEach((todo, index) => {
+        const todoItem = document.createElement('div');
+        todoItem.classList.add('todo-item');
+
+        const contentInput = document.createElement('input');
+        contentInput.type = 'text';
+        contentInput.value = todo.content;
+        contentInput.readOnly = true;
+        contentInput.classList.add('task-input'); // Add class for styling
+        todoItem.appendChild(contentInput);
+
+        const difficultySelect = document.createElement('select');
+        difficultySelect.style.display = 'none'; // Hide selector initially
+        ['easy', 'medium', 'hard'].forEach(difficulty => {
+            const option = document.createElement('option');
+            option.value = difficulty;
+            option.text = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            option.selected = todo.difficulty === difficulty;
+            difficultySelect.appendChild(option);
+        });
+        todoItem.appendChild(difficultySelect);
+
+        const actions = document.createElement('div');
+        actions.classList.add('actions');
+        todoItem.appendChild(actions);
+
+        const completeButton = document.createElement('button');
+        completeButton.classList.add('complete');
+        completeButton.textContent = 'Complete Quest';
+        actions.appendChild(completeButton);
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit');
+        editButton.textContent = 'Edit';
+        actions.appendChild(editButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete');
+        deleteButton.textContent = 'Delete';
+        actions.appendChild(deleteButton);
+
+        todoList.appendChild(todoItem);
+
+        completeButton.addEventListener('click', () => {
+            addXP(todo.difficulty);
+            todos.splice(index, 1);
+            localStorage.setItem('todos', JSON.stringify(todos));
+            DisplayTodos();
+        });
+
+        editButton.addEventListener('click', () => {
+            if (editButton.textContent === 'Edit') {
+                contentInput.readOnly = false;
+                difficultySelect.style.display = 'block'; // Show selector
+                editButton.textContent = 'Save';
+                contentInput.focus();
+            } else {
+                contentInput.readOnly = true;
+                difficultySelect.style.display = 'none'; // Hide selector
+                todo.content = contentInput.value;
+                todo.difficulty = difficultySelect.value;
+                localStorage.setItem('todos', JSON.stringify(todos));
+                DisplayTodos();
+            }
+        });
+
+        deleteButton.addEventListener('click', () => {
+            todos.splice(index, 1);
+            localStorage.setItem('todos', JSON.stringify(todos));
+            DisplayTodos();
+        });
+
+        if (todo.done) {
+            todoItem.classList.add('done');
+            completeButton.disabled = true;
+        }
+    });
+}
+
+
+// Event listener for form submission
 window.addEventListener('load', () => {
     todos = JSON.parse(localStorage.getItem('todos')) || [];
     const nameInput = document.querySelector('#name');
     const newTodoForm = document.querySelector('#new-todo-form');
 
-    const username = localStorage.getItem('username') || '';
-
-    nameInput.value = username;
-
-    nameInput.addEventListener('change', e =>{
+    nameInput.value = localStorage.getItem('username') || '';
+    nameInput.addEventListener('change', e => {
         localStorage.setItem('username', e.target.value);
-    })
+    });
 
     newTodoForm.addEventListener('submit', e => {
         e.preventDefault();
-
-        const todo = {
+        const newTodo = {
             content: e.target.elements.content.value,
-            category: e.target.elements.category.value,
+            difficulty: e.target.elements.difficulty.value,
             done: false,
             createdAt: new Date().getTime()
-        }
-
-        todos.push(todo);
-
+        };
+        todos.push(newTodo);
         localStorage.setItem('todos', JSON.stringify(todos));
-
-        e.target.reset();
-
         DisplayTodos();
-    })
+        e.target.reset();
+    });
 
     DisplayTodos();
-})
-
-function DisplayTodos (){
-    const todoList = document.querySelector('#todo-list');
-
-    todoList.innerHTML = '';
-
-    todos.forEach(todo =>{
-        const todoItem = document.createElement('div');
-        todoItem.classList.add('todo-item')
-
-        const label = document.createElement('label');
-        const input = document.createElement('input');
-        const span = document.createElement('span');
-        const content = document.createElement('div');
-        const actions = document.createElement('div');
-        const edit = document.createElement('button');
-        const deleteButton = document.createElement('button');
-
-        input.type = 'checkbox';
-        input.checked = todo.done;
-        span.classList.add('bubble');
-
-        if (todo.category == 'personal') {
-            span.classList.add('personal');
-        } else {
-            span.classList.add('business');
-        }
-
-        content.classList.add('todo-content');
-        actions.classList.add('actions');
-        edit.classList.add('edit');
-        deleteButton.classList.add('delete');
-
-        content.innerHTML = `<input type="text" value="${todo.content}"
-        readonly>` ;
-        edit.innerHTML = 'Edit';
-        deleteButton.innerHTML = 'Delete';
-
-        label.appendChild(input);
-        label.appendChild(span);
-        actions.appendChild(edit);
-        actions.appendChild(deleteButton);
-        todoItem.appendChild(label);
-        todoItem.appendChild(content);
-        todoItem.appendChild(actions);
-
-        todoList.appendChild(todoItem);
-        
-        if (todo.done) {
-            todoItem.classList.add('done');
-        }
-
-        input.addEventListener('click', e => {
-            todo.done = e.target.checked;
-            localStorage.setItem('todos', JSON.stringify(todos));
-
-            if (todo.done) {
-                todoItem.classList.add('done');
-            } else {
-                todoItem.classList.remove('done');
-            }
-
-            DisplayTodos();
-        })
-
-        edit.addEventListener('click', e => {
-            const input = content.querySelector('input');
-            input.removeAttribute('readonly');
-            input.focus();
-            input.addEventListener('blur', e => {
-                input.setAttribute('readonly', true);
-                todo.content = e.target.value;
-                localStorage.setItem('todos', JSON.stringify(todos));
-                DisplayTodos();
-            })
-        })
-
-        deleteButton.addEventListener('click', e => {
-            todos = todos.filter(t => t != todo);
-            localStorage.setItem('todos', JSON.stringify(todos));
-            DisplayTodos();
-        })
-    })
-}
+    updateDisplay();
+});
