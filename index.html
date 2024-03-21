@@ -16,11 +16,13 @@
     <link rel="stylesheet" href="main.css"/>
 </head>
 <body>
-    
+
+    <div id="vanta-bg"></div>
+
     <!--Header section with game name and logo-->
     <header class="header">
         <img src="/images/logoGif.gif" alt="QuestMaster Logo" class="logo"/>
-        <h1>QuestMaster</h1>
+        <h1 class="game-title">QuestMaster</h1>
     </header>
 
     <main class="app">
@@ -32,6 +34,7 @@
             </h2>
         </section>
         
+        <div class="content-container">
         <!--Section for creating a new task-->
         <section class="create-todo">
             <h3>Create a Quest</h3>
@@ -71,16 +74,36 @@
                 <!--Quest items will be dynamically added here-->
             </div>
         </section>
-
+        </div>
         <!--User stats section-->
         <section class="user-stats">
             <h4>Level: <span id="user-level">1</span></h4>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" style="width: 50%;"></div> <!-- Example width -->
+            </div>
             <h4>XP: <span id="user-xp">0</span>/<span id="next-level-xp">100</span></h4>
         </section>
 
     </main>
+    <div id="level-up-notification" class="level-up-notification">
+        Congratulations! You've reached level <span id="new-level">2</span>!
+    </div>
 
     <!--JavaScript file-->
+    
     <script src="main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js"></script>
+    <script>
+        VANTA.CLOUDS({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00
+        });
+    </script>
 </body>
 </html>

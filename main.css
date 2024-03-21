@@ -16,6 +16,38 @@
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+}
+
+#vanta-bg {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+}
+
+.app {
+    position: relative; 
+    z-index: 1; 
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: var(--light);
+    color: var(--dark);
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: start; 
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -36,13 +68,46 @@ body {
 
 /* Header Styles */
 .header {
-    background-color: var(--dark);
-    color: var(--light);
+    background-color: transparent; /* Ensures header background is transparent */
+    color: var(--dark);
     padding: 1rem;
-    text-align: center;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2; /* Keeps header above other elements */
+}
+
+.logo {
+    width: 60px;
+    height: auto;
+}
+
+.header h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+    margin: 0; /* Removes default margin */
+    flex-grow: 1; /* Allows the title to take up available space */
+    text-align: left; /* Aligns the text to the left */
+}
+
+.header .logo-container {
+    display: flex;
+    align-items: center;
+}
+
+
+.header .logo-container a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark); /* Ensures text color is consistent */
+}
+
+
+.header .logo-container a:hover {
+    color: var(--primary); /* Changes color on hover */
 }
 
 .logo {
@@ -91,6 +156,8 @@ h4 {
 /* Create Todo Styles */
 .create-todo,
 .todo-list {
+    flex: 1;
+    margin: 0 10px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     padding: 1rem;
@@ -100,7 +167,7 @@ h4 {
 .create-todo input[type="text"] {
     display: block;
     width: 100%;
-    font-size: 1.125rem;
+    font-size: 1rem;
     padding: 1rem 1.5rem;
     color: var(--dark);
     background-color: #EFF;
@@ -139,6 +206,12 @@ h4 {
     margin: 1rem 0;
 }
 
+.todo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
 .todo-list .todo-item {
     display: flex;
     align-items: center;
@@ -156,7 +229,7 @@ h4 {
     border-radius: 4px;
     margin-bottom: 5px;
     color: var(--dark);
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 .todo-item input[type="text"]:not([readonly]) {
@@ -184,7 +257,8 @@ h4 {
 }
 
 .todo-item .actions button {
-    padding: 5px 10px;
+    padding: 3px 6px;
+    font-size: 0.5rem;
     margin-right: 5px;
     border: none;
     border-radius: 4px;
@@ -301,4 +375,83 @@ input:checked ~ .bubble::after {
 
 .create-todo input[type="submit"]:active {
     transform: scale(0.95);
+}
+
+.user-stats {
+    text-align: center;
+    margin-bottom: 1rem;
+    background: rgba(0, 0, 0, 0.6); 
+    border-radius: 10px;
+    padding: 1rem;
+    color: #FFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    font-family: 'Press Start 2P', cursive; /* Pixelated font for a retro game feel */
+}
+
+.user-stats h4 {
+    margin-bottom: 0.5rem;
+    color: var(--light);
+    text-shadow: 2px 2px var(--dark);
+}
+
+/* Progress Bar Styles */
+.progress-bar {
+    background-color: var(--grey);
+    border-radius: 5px;
+    padding: 3px;
+    margin-bottom: 1rem;
+    overflow: hidden; /* Ensures the inner bar doesn't exceed the outer bar's rounded corners */
+}
+
+.progress-bar-inner {
+    background-color: var(--primary);
+    width: 0%; /* Initial width, dynamically update this with JS based on XP */
+    height: 10px;
+    border-radius: 2px;
+    transition: width 0.5s ease-in-out;
+}
+
+.xp-bar-container {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    margin: 10px 0;
+}
+
+.xp-bar {
+    height: 20px;
+    background-color: var(--primary);
+    width: 0%; /* Initial width */
+    border-radius: 3px;
+    transition: width 0.5s ease-in-out;
+}
+
+
+/* Level-Up Notification Styles */
+.level-up-notification {
+    display: none; /* Hidden by default */
+    position: fixed; /* Positioned relative to the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary);
+    color: #FFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    z-index: 1000; 
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    20%, 80% { opacity: 1; }
+}
+
+@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+    .app, .content-container{
+        flex-direction: column; /* Stack the sections */
+    }
 }

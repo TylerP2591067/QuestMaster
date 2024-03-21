@@ -10,9 +10,24 @@ function updateDisplay() {
     document.getElementById('user-level').textContent = user.level;
     document.getElementById('user-xp').textContent = user.xp;
     document.getElementById('next-level-xp').textContent = user.nextLevelXp;
+
+    // Update progress bar width
+    const xpProgress = (user.xp / user.nextLevelXp) * 100;
+    document.querySelector('.progress-bar-inner').style.width = xpProgress + '%';
+}
+// Function to add XP and handle level up
+function showLevelUpNotification(newLevel) {
+    const notification = document.getElementById('level-up-notification');
+    document.getElementById('new-level').textContent = newLevel;
+    notification.style.display = 'block';
+
+    // Hide the notification after a few seconds
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
 }
 
-// Function to add XP and handle level up
+
 function addXP(difficulty) {
     let xpToAdd;
     switch (difficulty) {
@@ -30,8 +45,10 @@ function addXP(difficulty) {
     if (user.xp >= user.nextLevelXp) {
         user.level++;
         user.xp -= user.nextLevelXp;
-        user.nextLevelXp += 100; // Increase the XP required for the next level
-        alert(`Congratulations! You've reached level ${user.level}!`);
+        user.nextLevelXp += 10; // Increase the XP required for the next level
+
+        // Show level-up notification
+        showLevelUpNotification(user.level);
     }
     localStorage.setItem('user', JSON.stringify(user));
     updateDisplay();
