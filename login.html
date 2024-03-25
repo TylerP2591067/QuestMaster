@@ -2,80 +2,67 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My To-Do List</title>
+    <title>QuestMaster Login</title>
     <link rel="stylesheet" href="loginStyle.css">
     <script src="https://kit.fontawesome.com/6cfe80b2e6.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
 
     <div class="container">
-
         <div class="form-box">
-                <div class="logo">
-                    <img src="/images/logoGif.gif" alt="Logo">
-                </div>
-            <form>
+            <div class="logo">
+                <img src="/images/logoGif.gif" alt="Logo">
+            </div>
+            <form id="loginForm">
                 <div class="input-group">
-                    <div class="input-field" id="nameField">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="Name">
-                    </div>
-
                     <div class="input-field">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="Email">
+                        <input type="email" placeholder="Email" id="emailInput">
                     </div>
 
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Password">
+                        <input type="password" placeholder="Password" id="passwordInput">
                     </div>
-                    <p>Lost password <a href="#">Click Here!</a></p>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <p>New to QuestMaster? <a href='register.html'>Click here!</a></p>
-
+                    <p>Lost password? <a href="#">Click Here!</a></p>
+                    <p>New to QuestMaster? <a href='register.html'>Sign up here!</a></p>
                 </div>
                 <div class="btn-field">
-                    <button type="button" id="signupBtn">Sign up</button>
-                    <button type="button" id="signinBtn"class="disable">Sign in</button>
+                    <button type="submit" id="signinBtn">Sign in</button>
                 </div>
             </form>
         </div>
-
     </div>
 
+    <script type="module" src="auth.js"></script>
 
-<script>
+    <script type="module">
+        import { loginUser } from './auth.js';
+    
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+    
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            loginUser(email, password)
+                .then((userCredential) => {
+                    // User logged in, redirect or show success message
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                    // Handle errors here, maybe show a message to the user
+                });
+        });
+    </script>
 
-let signupBtn = document.getElementById('signupBtn');
-let signinBtn = document.getElementById('signinBtn');
-let nameField = document.getElementById('nameField');
-let title = document.getElementById('title');
+    <!-- Firebase App SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"></script>
 
-nameField.style.display = "none";
-
-//signinBtn.onclick = function(){
-//    nameField.style.maxHeight = "0";
-//    title.innerHTML = "Sign In";
-//    signupBtn.classList.add("disable");
-//    signinBtn.classList.remove("disable");
-//}
-
-//signupBtn.onclick = function(){
-//    nameField.style.maxHeight = "60px";
-//    title.innerHTML = "Sign Up";
-//   signupBtn.classList.remove("disable");
-//    signinBtn.classList.add("disable");
-//}
-
-
-
-
-</script>
+    <!-- Firebase Auth SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js"></script>
 </body>
 </html>

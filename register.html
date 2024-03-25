@@ -2,31 +2,27 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My To-Do List</title>
+    <title>QuestMaster - Registration</title>
     <link rel="stylesheet" href="loginStyle.css">
     <script src="https://kit.fontawesome.com/6cfe80b2e6.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
 
     <div class="container">
-
         <div class="form-box">
             <div class="logo">
                 <img src="/images/logoGif.gif" alt="Logo">
             </div>
-            <form>
+            <form id="registrationForm">
                 <div class="input-group">
                     <div class="input-field" id="nameField">
                         <i class="fa-solid fa-user"></i>
                         <input type="text" placeholder="Name">
                     </div>
-
                     <div class="input-field">
                         <i class="fa-solid fa-envelope"></i>
                         <input type="email" placeholder="Email">
                     </div>
-
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" placeholder="Password">
@@ -37,37 +33,35 @@
                     <p>Already a QuestMaster user? <a href='login.html'>Click here to login!</a></p>
                 </div>
                 <div class="btn-field">
-                    <button type="button" id="signupBtn">Sign up</button>
-                    <button type="button" id="signinBtn"class="disable">Sign in</button>
+                    <button type="submit" id="signupBtn">Sign up</button>
+                    <button type="button" id="signinBtn" class="disable">Sign in</button>
                 </div>
             </form>
         </div>
-
     </div>
 
+    <script type="module" src="auth.js"></script>
+    <script type="module">
+        import { registerUser } from './auth.js';
 
-<script>
+        const registrationForm = document.getElementById('registrationForm');
+        const emailInput = registrationForm.querySelector('input[type="email"]');
+        const passwordInput = registrationForm.querySelector('input[type="password"]');
 
-let signupBtn = document.getElementById('signupBtn');
-let signinBtn = document.getElementById('signinBtn');
-let nameField = document.getElementById('nameField');
-let title = document.getElementById('title');
-
-signinBtn.onclick = function(){
-    nameField.style.maxHeight = "0";
-    title.innerHTML = "Sign In";
-    signupBtn.classList.add("disable");
-    signinBtn.classList.remove("disable");
-}
-
-signupBtn.onclick = function(){
-    nameField.style.maxHeight = "60px";
-    title.innerHTML = "Sign Up";
-    signupBtn.classList.remove("disable");
-    signinBtn.classList.add("disable");
-}
-
-
-</script>
+        registrationForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            registerUser(email, password)
+                .then((userCredential) => {
+                    // User registered, redirect or show success message
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                    // Handle errors here, e.g., show error message to user
+                });
+        });
+    </script>
 </body>
 </html>

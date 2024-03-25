@@ -455,3 +455,55 @@ input:checked ~ .bubble::after {
         flex-direction: column; /* Stack the sections */
     }
 }
+
+
+/* Styling for the Tab Links */
+.tab-links {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.tab-links button {
+    background-color: var(--primary); /* Use your primary color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font for a retro game feel */
+    box-shadow: 3px 3px var(--dark); /* Adds depth */
+    transition: all 0.2s;
+}
+
+.tab-links button:hover {
+    background-color: #D030A4;
+    transform: translateY(-2px);
+    box-shadow: 5px 5px var(--dark);
+}
+
+.tab-links button:active {
+    transform: translateY(1px);
+    box-shadow: 1px 1px var(--dark);
+}
+
+#logoutBtn {
+    background-color: #ff5b57; 
+    color: white; 
+    padding: 10px 20px; 
+    font-size: 1rem; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold; 
+    letter-spacing: 1px; 
+}
+
+#logoutBtn:hover {
+    background-color: darken(#ff5b57, 15%); /* Darken button color on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Larger shadow on hover */
+    transform: translateY(-2px); /* Slight move up on hover */
+}

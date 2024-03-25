@@ -1,3 +1,7 @@
+import { signOutUser } from './auth.js';
+
+
+
 // User stats initialization
 let todos, user = JSON.parse(localStorage.getItem('user')) || {
     level: 1,
@@ -166,4 +170,43 @@ window.addEventListener('load', () => {
 
     DisplayTodos();
     updateDisplay();
+});
+
+
+function showSection(sectionId) {
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("settings").style.display = "none";
+    document.getElementById("challenges").style.display = "none";
+    document.getElementById(sectionId).style.display = "block";
+}
+
+
+
+// Add the logout functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            signOutUser()
+            .then(() => {
+                // User signed out successfully
+                window.location.href = 'login.html'; // Redirect to login page or any other page
+            })
+            .catch((error) => {
+                console.error('Logout failed:', error);
+                // Handle errors here, such as displaying a notification
+            });
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-links button');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            showSection(btn.getAttribute('data-section'));
+        });
+    });
+
+    // Add other functionalities here...
 });
