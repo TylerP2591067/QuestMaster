@@ -24,6 +24,7 @@ function showLevelUpNotification(newLevel) {
     const notification = document.getElementById('level-up-notification');
     document.getElementById('new-level').textContent = newLevel;
     notification.style.display = 'block';
+    playSound('/sfx/LevelUpSound.wav')
 
     // Hide the notification after a few seconds
     setTimeout(() => {
@@ -31,6 +32,10 @@ function showLevelUpNotification(newLevel) {
     }, 3000);
 }
 
+function playSound(soundSrc) {
+    const sound = new Audio(soundSrc);
+    sound.play();
+}
 
 function addXP(difficulty) {
     let xpToAdd;
@@ -111,6 +116,8 @@ function DisplayTodos() {
             todos.splice(index, 1);
             localStorage.setItem('todos', JSON.stringify(todos));
             DisplayTodos();
+
+            playSound('/sfx/CompleteQuestSound.wav');
         });
 
         editButton.addEventListener('click', () => {
@@ -166,6 +173,8 @@ window.addEventListener('load', () => {
         localStorage.setItem('todos', JSON.stringify(todos));
         DisplayTodos();
         e.target.reset();
+
+        playSound('/sfx/newQuestSound.wav'); 
     });
 
     DisplayTodos();
