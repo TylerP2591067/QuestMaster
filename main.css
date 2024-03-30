@@ -507,3 +507,245 @@ input:checked ~ .bubble::after {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Larger shadow on hover */
     transform: translateY(-2px); /* Slight move up on hover */
 }
+
+
+/* Settings Styles */
+#settings {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    margin: 2rem;
+}
+
+#settings h2 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+#settings .form-group {
+    margin-bottom: 1rem;
+}
+
+#settings label {
+    display: block;
+    color: var(--dark);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#settings input[type="checkbox"],
+#settings input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+#settings select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--select-border);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+#settings button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    background-color: var(--primary);
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background-color 0.2s;
+}
+
+#settings button:hover {
+    background-color: darken(var(--primary), 10%);
+}
+
+
+/* Global Dark Mode Styles */
+.dark-mode {
+    --primary: #EA40A4;  /* Primary pink color */
+    --light: #3d3d3d;    /* Dark background */
+    --dark: #E0E0E0;     /* Light text */
+    --grey: #AAA;        /* Adjusted grey for dark mode */
+    --danger: #FF6B6B;   /* Adjusted danger color */
+    --edit-highlight: #3A82EE; /* Edit highlight color */
+    --hover-grey: #3B3B3B; /* Dark hover background */
+    --select-border: #555; /* Darker border for selects */
+}
+
+/* Applying Dark Mode Styles */
+.dark-mode body {
+    background: var(--dark); /* Dark background for the whole page */
+    color: var(--light); /* Light text for readability */
+}
+
+.dark-mode .header,
+.dark-mode .tab-links button,
+.dark-mode #logoutBtn {
+    background: transparent; /* Primary color for header and buttons */
+    color: var(--dark); /* Dark text on primary background */
+}
+
+.dark-mode .app,
+.dark-mode #settings,
+.dark-mode .create-todo,
+.dark-mode .todo-list {
+    background: var(--light); /* Lighter surface color */
+    color: var(--dark); /* Dark text for contrast */
+}
+
+.dark-mode .todo-item {
+    background-color: var(--grey); /* Slightly lighter background for todo items */
+    color: var(--dark);
+}
+
+.dark-mode .progress-bar {
+    background-color: var(--grey); /* Darker progress bar background */
+}
+
+.dark-mode .progress-bar-inner {
+    background-color: var(--primary); /* Primary color for progress */
+}
+
+/* Specific Adjustments for Difficulty Buttons in Dark Mode */
+.dark-mode .create-todo .options.difficulty label {
+    background-color: var(--grey); /* Darker background for difficulty labels */
+    color: var(--light); /* Light text */
+}
+
+.dark-mode .create-todo .options.difficulty label:hover {
+    background-color: var(--primary); /* Primary color on hover */
+    color: var(--dark); /* Dark text on primary background */
+}
+
+.dark-mode .create-todo .options.difficulty input[type="radio"]:checked + .bubble::after {
+    background-color: var(--primary); /* Primary color for checked state */
+}
+
+.dark-mode #challenges {
+    background: rgba(49, 49, 49, 0.7); /* Semi-transparent black background */
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    color: var(--); /* Light text for contrast */
+    font-family: 'Press Start 2P', cursive;
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensures body takes the full viewport height */
+    overflow: hidden; /* Hides scrollbars */
+}
+
+canvas {
+    position: fixed; /* Ensures canvas is fixed over the whole page */
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    z-index: -1; /* Sends canvas to the back */
+}
+
+
+/* Challenges Page Styles */
+#challenges {
+    background: rgba(243, 243, 243, 0.7); /* Semi-transparent black background */
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    color: var(--light); /* Light text for contrast */
+    font-family: 'Press Start 2P', cursive;
+}
+
+#challenges h2, #challenges h3 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+#challenges ul {
+    list-style: none;
+    padding: 0;
+}
+
+#challenges li {
+    background: var(--dark); /* Darker background for list items */
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    cursor: pointer; /* Indicate items are interactive */
+    transition: background-color 0.2s ease-in-out;
+}
+
+#challenges li:hover {
+    background-color: var(--edit-highlight); /* Highlight color on hover */
+}
+
+#challenges li span {
+    color: var(--danger);
+    margin-left: 10px;
+}
+
+#challenges .complete {
+    color: #28a745; /* Green color for completed tasks */
+}
+
+/* Additional Styles for Achievements */
+#challenges h3.achievements {
+    margin-top: 2rem; /* Adds space above the achievements section */
+}
+
+/* Daily Tasks Styling */
+#dailyTasks li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+}
+
+#dailyTasks li span {
+    background-color: var(--grey);
+    color: var(--dark);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+}
+
+#dailyTasks li span:hover {
+    background-color: var(--primary);
+    color: var(--light);
+    cursor: pointer;
+}
+
+#dailyTasks li.completed span {
+    background-color: var(--edit-highlight);
+    color: var(--light);
+    cursor: default;
+}
+
+/* Responsive Design for Challenges */
+@media (max-width: 768px) {
+    #challenges {
+        margin: 1rem;
+        padding: 0.5rem;
+    }
+
+    #challenges h2, #challenges h3 {
+        font-size: 0.9rem;
+    }
+
+    #challenges li {
+        font-size: 0.8rem;
+    }
+}

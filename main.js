@@ -32,10 +32,7 @@ function showLevelUpNotification(newLevel) {
     }, 3000);
 }
 
-function playSound(soundSrc) {
-    const sound = new Audio(soundSrc);
-    sound.play();
-}
+
 
 function addXP(difficulty) {
     let xpToAdd;
@@ -191,31 +188,185 @@ function showSection(sectionId) {
 
 
 
-// Add the logout functionality
 document.addEventListener('DOMContentLoaded', () => {
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            signOutUser()
-            .then(() => {
-                // User signed out successfully
-                window.location.href = 'login.html'; // Redirect to login page or any other page
-            })
-            .catch((error) => {
-                console.error('Logout failed:', error);
-                // Handle errors here, such as displaying a notification
-            });
+    // Initialize the default difficulty based on stored preference
+    const storedDefaultDifficulty = localStorage.getItem('defaultDifficulty') || 'easy';
+    const defaultDifficultyRadios = document.querySelectorAll('input[name="defaultDifficulty"]');
+    defaultDifficultyRadios.forEach((radio) => {
+        radio.checked = radio.value === storedDefaultDifficulty;
+        radio.addEventListener('change', function() {
+            localStorage.setItem('defaultDifficulty', this.value);
         });
-    }
-});
+    });
 
-document.addEventListener('DOMContentLoaded', () => {
+    // Set the default difficulty for the new-todo-form
+    document.querySelectorAll('#new-todo-form input[name="difficulty"]').forEach((radio) => {
+        radio.checked = radio.value === storedDefaultDifficulty;
+    });
+
+    // Apply saved sound setting
+    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+    document.getElementById('sound').checked = soundEnabled;
+
+    // Setup tab switching functionality
+    setupTabButtons();
+
+    // Logout functionality
+    setupLogoutButton();
+
+    // Setup save functionality for settings form
+    setupSettingsForm();
+
+    // Initialize the theme
+    initializeTheme();
+
+    });
+
+function setupTabButtons() {
     const tabButtons = document.querySelectorAll('.tab-links button');
     tabButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             showSection(btn.getAttribute('data-section'));
         });
     });
+}
 
-    // Add other functionalities here...
+function setupLogoutButton() {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            signOutUser()
+                .then(() => window.location.href = 'login.html')
+                .catch((error) => console.error('Logout failed:', error));
+        });
+    }
+}
+
+function setupSettingsForm() {
+    const settingsForm = document.getElementById('settings-form');
+    settingsForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Save the sound setting
+        const soundEnabled = document.getElementById('sound').checked;
+        localStorage.setItem('soundEnabled', soundEnabled);
+
+        // Save the default difficulty
+        const selectedDefaultDifficulty = document.querySelector('input[name="defaultDifficulty"]:checked').value;
+        localStorage.setItem('defaultDifficulty', selectedDefaultDifficulty);
+
+        alert('Settings saved successfully.');
+    });
+}
+
+function initializeTheme() {
+    const themeSelect = document.getElementById('theme');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    themeSelect.value = savedTheme;
+    applyTheme(savedTheme);
+
+    themeSelect.addEventListener('change', function() {
+        applyTheme(this.value);
+        localStorage.setItem('theme', this.value);
+    });
+}
+
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+}
+
+
+function playSound(soundSrc) {
+    const soundCheckbox = document.getElementById("sound");
+    if (soundCheckbox && soundCheckbox.checked) {
+        const sound = new Audio(soundSrc);
+        sound.play();
+    }
+}
+
+
+
+/*
+document.getElementById('settings-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    // Save the default difficulty
+    const defaultDifficulty = document.querySelector('input[name="defaultDifficulty"]:checked').value;
+    localStorage.setItem('defaultDifficulty', defaultDifficulty);
+
+    // Save the sound setting
+    const soundEnabled = document.getElementById('sound').checked;
+    localStorage.setItem('soundEnabled', soundEnabled);
+
+    // Optionally, display a message to the user that settings are saved
+    // ...
 });
+*/
+// Example daily tasks
+const dailyTasksData = [
+    { id: 'makeBed', name: 'Make your bed', xpReward: 40 },
+    { id: 'exerciseHour', name: '1 hour of exercise', xpReward: 40 },
+    // ... add more tasks as needed
+];
+
+// Function to check if a task is completed today
+function isTaskCompletedToday(taskId) {
+    const completedTasks = JSON.parse(localStorage.getItem('completedDailyTasks')) || {};
+    const lastCompletedDate = completedTasks[taskId];
+    return lastCompletedDate === new Date().toDateString();
+}
+
+// Function to display daily tasks
+function displayDailyTasks() {
+    const dailyTasksList = document.getElementById('dailyTasks');
+    dailyTasksList.innerHTML = '';
+
+    dailyTasksData.forEach(task => {
+        const taskItem = document.createElement('li');
+        taskItem.textContent = `${task.name} - `;
+        const statusSpan = document.createElement('span');
+
+        if (isTaskCompletedToday(task.id)) {
+            statusSpan.textContent = 'Completed Today';
+        } else {
+            statusSpan.textContent = 'Incomplete';
+            statusSpan.style.cursor = 'pointer';
+            statusSpan.onclick = () => completeDailyTask(task);
+        }
+
+        taskItem.appendChild(statusSpan);
+        dailyTasksList.appendChild(taskItem);
+    });
+}
+
+// Function to complete a daily task
+function completeDailyTask(task) {
+    if (!isTaskCompletedToday(task.id)) {
+        user.xp += task.xpReward;
+        if (user.xp >= user.nextLevelXp) {
+            // Handle level up
+            user.level++;
+            user.xp -= user.nextLevelXp;
+            user.nextLevelXp += 10; // Modify as needed
+            showLevelUpNotification(user.level);
+        }
+        
+        // Update local storage
+        const completedTasks = JSON.parse(localStorage.getItem('completedDailyTasks')) || {};
+        completedTasks[task.id] = new Date().toDateString();
+        localStorage.setItem('completedDailyTasks', JSON.stringify(completedTasks));
+
+        updateDisplay();
+        playSound('completeQuestSound'); // If you have a sound for completing tasks
+    }
+
+    displayDailyTasks(); // Refresh the list of tasks
+}
+
+document.addEventListener('DOMContentLoaded', displayDailyTasks);
+
+

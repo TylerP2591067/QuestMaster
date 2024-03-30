@@ -109,21 +109,21 @@
             <h2>Settings</h2>
             <form id="settings-form">
                 <div class="form-group">
-                    <label for="sound">Sound:</label>
+                    <label for="soundCheckbox">Sound:</label>
                     <input type="checkbox" id="sound" name="sound" checked>
                 </div>
-                <div class="form-group">
-                    <label for="notifications">Enable Notifications:</label>
-                    <input type="checkbox" id="notifications" name="notifications">
-                </div>
-                <div class="form-group">
-                    <label for="difficulty">Default Quest Difficulty:</label>
-                    <select id="difficulty" name="difficulty">
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label>Default Quest Difficulty:</label>
+                <label>
+                    <input type="radio" name="defaultDifficulty" value="easy" checked> Easy
+                </label>
+                <label>
+                    <input type="radio" name="defaultDifficulty" value="medium"> Medium
+                </label>
+                <label>
+                    <input type="radio" name="defaultDifficulty" value="hard"> Hard
+                </label>
+            </div>
                 <div class="form-group">
                     <label for="theme">Theme:</label>
                     <select id="theme" name="theme">
@@ -131,7 +131,7 @@
                         <option value="dark">Dark</option>
                     </select>
                 </div>
-                <button type="submit">Save Changes</button>
+
             </form>
         </div>
 
@@ -141,6 +141,10 @@
                 <li>Defeat the Dragon - <span>Status: Incomplete</span></li>
                 <li>Find the Lost Treasure - <span>Status: Complete</span></li>
                 <li>Explore the Enchanted Forest - <span>Status: Incomplete</span></li>
+            </ul>
+            <h3>Daily Tasks</h3>
+            <ul id="dailyTasks">
+                <!-- Daily tasks will be added here -->
             </ul>
             <h3>Achievements</h3>
             <ul>
@@ -190,17 +194,22 @@
       <script type="module" src="main.js"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js"></script>
-      <script>
-          VANTA.CLOUDS({
-              el: "#vanta-bg",
-              mouseControls: true,
-              touchControls: true,
-              gyroControls: false,
-              minHeight: 200.00,
-              minWidth: 200.00
-          });
-      </script>
+      <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+      <script src="tetrisBg.js"></script>
+
+    <!-- // BEGIN: ed8c6549bwf9
+          <script>
+              VANTA.NET({
+                  el: "#vanta-bg",
+                  mouseControls: true,
+                  touchControls: true,
+                  gyroControls: false,
+                  minHeight: 200.00,
+                  minWidth: 200.00,
+                  scale: 1.00,
+                  scaleMobile: 1.00
+              });
+          </script>
   
 </body>
 </html>
