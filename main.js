@@ -309,8 +309,24 @@ document.getElementById('settings-form').addEventListener('submit', function(eve
 // Example daily tasks
 const dailyTasksData = [
     { id: 'makeBed', name: 'Make your bed', xpReward: 40 },
-    { id: 'exerciseHour', name: '1 hour of exercise', xpReward: 40 },
-    // ... add more tasks as needed
+    { id: 'exerciseHour', name: '1 hour of exercise', xpReward: 120 },
+    { id: 'vitamins', name: 'Take daily vitamins', xpReward: 40 },
+    { id: 'hydration', name: 'Drink 2 litre of water', xpReward: 60 },
+    { id: 'readBook', name: 'Read a book for 30 minutes', xpReward: 50 },
+    { id: 'meditation', name: 'Meditate for 15 minutes', xpReward: 70 },
+    { id: 'noScreenHour', name: 'One hour without screens before bed', xpReward: 60 },
+    { id: 'cookMeal', name: 'Cook a healthy meal', xpReward: 85 },
+    { id: 'cleanSpace', name: 'Declutter your workspace', xpReward: 75 },
+    { id: 'connectFriend', name: 'Call a friend or family member', xpReward: 50 },
+    { id: 'learnSkill', name: 'Spend 30 minutes on a new skill', xpReward: 90 },
+    { id: 'journaling', name: 'Write in your journal', xpReward: 45 },
+    { id: 'stepsChallenge', name: 'Walk 10,000 steps', xpReward: 100 },
+    { id: 'newsCheck', name: 'Catch up on current events', xpReward: 40 },
+    { id: 'noJunkFood', name: 'Avoid junk food for a day', xpReward: 60 },
+    { id: 'budgetReview', name: 'Review and manage your budget', xpReward: 80 },
+    { id: 'publicTransport', name: 'Use public transport for the day', xpReward: 55 },
+    { id: 'volunteerHour', name: 'Volunteer for one hour', xpReward: 120 },
+    { id: 'gardenTime', name: 'Spend time gardening', xpReward: 65 },
 ];
 
 // Function to check if a task is completed today
@@ -351,7 +367,7 @@ function completeDailyTask(task) {
             // Handle level up
             user.level++;
             user.xp -= user.nextLevelXp;
-            user.nextLevelXp += 10; // Modify as needed
+            user.nextLevelXp += 10;
             showLevelUpNotification(user.level);
         }
         
@@ -361,8 +377,7 @@ function completeDailyTask(task) {
         localStorage.setItem('completedDailyTasks', JSON.stringify(completedTasks));
 
         updateDisplay();
-        playSound('completeQuestSound'); // If you have a sound for completing tasks
-    }
+        playSound('/sfx/CompleteQuestSound.wav');
 
     displayDailyTasks(); // Refresh the list of tasks
 }
