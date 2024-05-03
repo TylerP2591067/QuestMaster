@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-
     <!--Referencing CSS file-->
     <link rel="stylesheet" href="main.css"/>
 
@@ -32,7 +31,6 @@
         <button id="logoutBtn" class="logout-button">Logout</button>
     </header>
 
-
     <div class="tab-links">
         <button data-section="mainContent">Main</button>
         <button data-section="settings">Settings</button>
@@ -50,7 +48,7 @@
         </section>
         
         <div class="content-container">
-        <!--Section for creating a new task-->
+        <!--Section for creating a new quest-->
         <section class="create-todo">
             <h3>Create a Quest</h3>
             <form id="new-todo-form">
@@ -58,23 +56,53 @@
                 <!--Text input for new quest-->
                 <input type="text" name="content" id="content" placeholder="e.g. Slay the dragon"/>
 
+                <!-- Quest Category -->
+                <h4>Category</h4>
+                <div class="options category">
+                    <label>
+                        <input type="radio" name="category" value="personal" checked>
+                        <div>Personal</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="category" value="business">
+                        <div>Business</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="category" value="Custom">
+                        <div>Custom</div>
+                    </label>
+                </div>
+
+                <!-- Custom Category Input -->
+                <div id="customCategoryInput" class="custom-category">
+                    <label for="customCategory">Custom Category:</label>
+                    <input type="text" id="customCategory" placeholder="Enter custom category name"/>
+                </div>
+
+                <!-- Quest Difficulty -->
                 <h4>Quest Difficulty</h4>
                 <div class="options difficulty">
                     <label>
                         <input type="radio" name="difficulty" value="easy" checked>
-                        <span class="bubble difficulty"></span>
                         <div>Easy (10 XP)</div>
                     </label>
                     <label>
                         <input type="radio" name="difficulty" value="medium">
-                        <span class="bubble difficulty"></span>
                         <div>Medium (20 XP)</div>
                     </label>
                     <label>
                         <input type="radio" name="difficulty" value="hard">
-                        <span class="bubble difficulty"></span>
                         <div>Hard (30 XP)</div>
                     </label>
+                </div>
+
+                <!-- Due Date and Time -->
+                <h4>Due Date and Time</h4>
+                <div class="due-date">
+                    <input type="date" id="dueDate" placeholder="Select a date"/>
+                </div>
+                <div class="due-time">
+                    <input type="time" id="dueTime" placeholder="Select a time"/>
                 </div>
 
                 <!--Submit button for adding a new quest-->
@@ -136,11 +164,9 @@
         </div>
 
         <div id="challenges" class="tab-content" style="display: none;">
-            <h2>Challenges</h2>
-            <ul>
-                <li>Defeat the Dragon - <span>Status: Incomplete</span></li>
-                <li>Find the Lost Treasure - <span>Status: Complete</span></li>
-                <li>Explore the Enchanted Forest - <span>Status: Incomplete</span></li>
+            <h2>Weekly Challenges</h2>
+            <ul id="challenge-list">
+                <!-- Weekly challenges will be inserted here -->
             </ul>
             <h3>Daily Tasks</h3>
             <ul id="dailyTasks">
@@ -167,15 +193,29 @@
     <!-- Firebase Auth SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js"></script>
 
+    <script type="module" src="main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+    <!-- Apply VANTA.NET Background -->
+    <script>
+        VANTA.NET({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00
+        });
+    </script>
+
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
         const firebaseConfig = {
           apiKey: "AIzaSyC4HfyW8SgvkxnkTaGTYRlGqiu1IFCIXiQ",
           authDomain: "questmaster-6509b.firebaseapp.com",
@@ -195,21 +235,18 @@
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-      <script src="tetrisBg.js"></script>
 
-    <!-- // BEGIN: ed8c6549bwf9
-          <script>
-              VANTA.NET({
-                  el: "#vanta-bg",
-                  mouseControls: true,
-                  touchControls: true,
-                  gyroControls: false,
-                  minHeight: 200.00,
-                  minWidth: 200.00,
-                  scale: 1.00,
-                  scaleMobile: 1.00
-              });
-          </script>
-  
+      <script>
+        // Trigger the weekly challenge display when Challenges tab is activated
+        document.querySelectorAll('.tab-links button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const sectionId = btn.getAttribute('data-section');
+                if (sectionId === 'challenges') {
+                    displayWeeklyChallenges(); // Display weekly challenges on tab switch
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
