@@ -266,7 +266,6 @@ function playSound(soundSrc) {
 const dailyTasksData = [
     { id: 'makeBed', name: 'Make your bed', xpReward: 40 },
     { id: 'exerciseHour', name: '1 hour of exercise', xpReward: 40 },
-    // ... add more tasks as needed
 ];
 
 // Function to check if a task is completed today
@@ -310,7 +309,7 @@ function completeDailyTask(task) {
             // Handle level up
             user.level++;
             user.xp -= user.nextLevelXp;
-            user.nextLevelXp += 10; // Modify as needed
+            user.nextLevelXp += 10; 
             showLevelUpNotification(user.level);
         }
         
@@ -320,7 +319,7 @@ function completeDailyTask(task) {
         localStorage.setItem('completedDailyTasks', JSON.stringify(completedTasks));
 
         updateDisplay();
-        playSound('completeQuestSound'); // If you have a sound for completing tasks
+        playSound('completeQuestSound'); 
     }
 
     displayDailyTasks(); // Refresh the list of tasks
@@ -402,14 +401,14 @@ function displayWeeklyChallenges() {
 
 // Setup event listeners for quest creation and challenge completion
 window.addEventListener('load', () => {
-    checkAndResetWeeklyChallenges(); // Check if a new week has started
+    checkAndResetWeeklyChallenges();
 
     DisplayTodos(); // Initial display of todos
     displayWeeklyChallenges(); // Display current weekly challenges
 
     const newTodoForm = document.querySelector('#new-todo-form');
 
-    // Ensure the event listener is added only once to avoid duplication
+
     if (newTodoForm) {
         newTodoForm.addEventListener('submit', (e) => {
         e.preventDefault();
